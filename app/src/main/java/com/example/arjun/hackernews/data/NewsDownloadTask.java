@@ -31,6 +31,7 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
     private HashSet<String> timeSet;
     private HashSet<String> titleSet;
     private HashSet<String> urlSet;
+    private boolean isAboveCodeComplete; // To Check if Objects are initialised.
 
     @SuppressLint("StaticFieldLeak")
     private static Context contextOfApplication;
@@ -38,7 +39,7 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
 
     @Override
     protected String doInBackground(String... strings) {
-
+        isAboveCodeComplete = false ;
         URL url;
         HttpURLConnection httpURLConnection;
 
@@ -127,13 +128,16 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
             e.printStackTrace();
 
         }
-
+        isAboveCompleteCode = true;   //Ensuring objects are initialised.
         return null;
     }
 
     @Override
     public ArrayList<News> getNews() {
 
+        //Waiting for the doInbackground() to complete. Then only its execution will start.
+        while(!isAboveCodeComplete);
+        
         contextOfApplication = NewsActivity.getContextOfApplication();
 
         timeSet = NewsSharedPref.getNewsTime(contextOfApplication);
