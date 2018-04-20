@@ -36,7 +36,6 @@ public class NewsDataSource implements NewsSourceInterface {
 
     private ArrayList<News> newsList;
 
-
     @Override
     public ArrayList<News> getNews() {
 
