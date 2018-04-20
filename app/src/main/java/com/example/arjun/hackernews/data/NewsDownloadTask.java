@@ -28,17 +28,11 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
     private ArrayList<String> newsTitle;
     private ArrayList<String> newsURL;
 
-    private HashSet<String> timeSet;
-    private HashSet<String> titleSet;
-    private HashSet<String> urlSet;
     private boolean isAboveCodeComplete; // To Check if Objects are initialised.
-
-    @SuppressLint("StaticFieldLeak")
-    private static Context contextOfApplication;
-
 
     @Override
     protected String doInBackground(String... strings) {
+
         isAboveCodeComplete = false ;
         URL url;
         HttpURLConnection httpURLConnection;
@@ -110,17 +104,6 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
 
                 }
 
-                timeSet = new HashSet<>(newsTime);
-                titleSet = new HashSet<>(newsTitle);
-                urlSet = new HashSet<>(newsURL);
-
-                contextOfApplication = NewsActivity.getContextOfApplication();
-
-                NewsSharedPref.setNewsTime(contextOfApplication, timeSet);
-                NewsSharedPref.setNewsTitle(contextOfApplication, titleSet);
-                NewsSharedPref.setNewsURL(contextOfApplication, urlSet);
-
-
             }
 
         } catch (IOException | JSONException e) {
@@ -128,6 +111,7 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
             e.printStackTrace();
 
         }
+
         isAboveCodeComplete = true;   //Ensuring objects are initialised.
         return null;
     }
@@ -137,25 +121,6 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
 
         //Waiting for the doInbackground() to complete. Then only its execution will start.
         while(!isAboveCodeComplete);
-        
-        contextOfApplication = NewsActivity.getContextOfApplication();
-
-        timeSet = NewsSharedPref.getNewsTime(contextOfApplication);
-        titleSet = NewsSharedPref.getNewsTitle(contextOfApplication);
-        urlSet = NewsSharedPref.getNewsURL(contextOfApplication);
-
-        Log.i("time", timeSet.toString());
-
-
-        for (int i = 0; i < numberOfNews ; i++) {
-
-
-        }
-
-        newsTime = new ArrayList<>(timeSet);
-        newsTitle = new ArrayList<>(titleSet);
-        newsURL = new ArrayList<>(urlSet);
-
 
         ArrayList<News> newsArrayList = new ArrayList<>();
 

@@ -44,7 +44,7 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface{
         recyclerView = findViewById(R.id.recyclerView);
         layoutInflater = getLayoutInflater();
 
-        controller = new Controller(this, new NewsDownloadTask());
+        controller = new Controller(this, new NewsDataSource());
 
     }
 
