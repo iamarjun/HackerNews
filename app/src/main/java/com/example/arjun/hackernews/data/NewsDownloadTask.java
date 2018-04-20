@@ -128,7 +128,7 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
             e.printStackTrace();
 
         }
-        isAboveCompleteCode = true;   //Ensuring objects are initialised.
+        isAboveCodeComplete = true;   //Ensuring objects are initialised.
         return null;
     }
 
