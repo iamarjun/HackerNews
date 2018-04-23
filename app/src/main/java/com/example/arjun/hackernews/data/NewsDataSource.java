@@ -88,7 +88,6 @@ public class NewsDataSource implements NewsSourceInterface {
                         newsListener.onNewsReceived(newsList);
 
                         //newsList is populated over here.
-                        //Log.i("news:", newsList.toString());
 
                     }
                 },
