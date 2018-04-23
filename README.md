@@ -21,7 +21,7 @@ https://stackoverflow.com/questions/25348339/how-to-import-an-existing-project-f
 
 ### Project Structure
 
-As per MVP architecture project is broken down into 3 main packages
+As per MVP architecture project is broken down into 3 main packages:
 
 ## data
 
