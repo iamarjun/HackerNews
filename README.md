@@ -5,6 +5,7 @@ HackerNews is a simple barebone app which serves as a starting point for impleme
 ## Getting Started
 
 Just fork the project and open it in Android Studio to get up and running. 
+
 See : How to import an existing project from github into Android Studio.
 
 ```
@@ -82,8 +83,8 @@ Links open up in WebView when clicked on the desired Headine.
 
 ## Authors
 
-* **Arjun Manoj** - *Initial work* - [Arjun Manoj](https://github.com/iamarjun)
-* **Ryan** - *Staring Point of the work* - [BracketCove](https://github.com/BracketCove)
+* **Arjun Manoj** - *Application* - [Arjun Manoj](https://github.com/iamarjun)
+* **Ryan** - *Initial work* - [BracketCove](https://github.com/BracketCove)
 
 See also the list of [contributors](https://github.com/iamarjun/HackerNews/graphs/contributors) who participated in this project.
 
