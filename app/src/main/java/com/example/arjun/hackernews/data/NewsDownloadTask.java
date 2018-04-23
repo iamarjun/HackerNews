@@ -136,6 +136,8 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
             newsArrayList.add(news);
 
         }
+
+
         return newsArrayList;
     }
 }

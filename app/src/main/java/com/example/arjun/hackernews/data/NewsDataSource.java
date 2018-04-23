@@ -27,7 +27,6 @@ import java.util.HashSet;
 
 public class NewsDataSource implements NewsSourceInterface {
 
-
     private int numberOfNews = 10;
 
     private ArrayList<String> newsTime;
@@ -35,16 +34,16 @@ public class NewsDataSource implements NewsSourceInterface {
     private ArrayList<String> newsURL;
 
     private ArrayList<News> newsList;
+    private ArrayList<News> newsArrayList;
 
-    @Override
-    public ArrayList<News> getNews() {
-
+    private void getNewsDataSource(final NewsListener newsListener){
 
         final String URL = "https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60";
 
         newsTime = new ArrayList<>();
         newsTitle = new ArrayList<>();
         newsURL = new ArrayList<>();
+
         newsList = new ArrayList<>();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
@@ -79,12 +78,17 @@ public class NewsDataSource implements NewsSourceInterface {
                                 );
 
                                 newsList.add(news);
-                            }
 
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        newsListener.onNewsReceived(newsList);
+
+                        //newsList is populated over here.
+                        //Log.i("news:", newsList.toString());
 
                     }
                 },
@@ -98,10 +102,33 @@ public class NewsDataSource implements NewsSourceInterface {
                 });
 
         Context contextOfApplication = NewsActivity.getContextOfApplication();
-
         MySingleton.getInstance(contextOfApplication).addToRequestQueue(jsonObjectRequest);
 
-        return newsList;
+
+    }
+
+    @Override
+    public ArrayList<News> getNews() {
+
+        newsArrayList = new ArrayList<>();
+
+        getNewsDataSource(new NewsListener() {
+            @Override
+            public void onNewsReceived(ArrayList<News> newsList) {
+
+                Log.i("arjun", newsList.toString());
+                // how do i return the newsList below
+
+                newsArrayList = newsList;
+
+            }
+        });
+
+        Log.i("arjun", newsList.toString());
+
+
+        return newsArrayList;
+
     }
 }
 

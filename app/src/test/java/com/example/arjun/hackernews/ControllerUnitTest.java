@@ -77,8 +77,6 @@ public class ControllerUnitTest {
         controller.onNewsItemClicked(news);
 
         Mockito.verify(viewInterface).startNewsWebViewActivity(
-                news.getTime(),
-                news.getTitle(),
                 news.getNewsURL()
         );
     }
