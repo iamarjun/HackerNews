@@ -14,25 +14,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.arjun.hackernews.R;
-import com.example.arjun.hackernews.data.FakeNews;
 import com.example.arjun.hackernews.data.News;
 import com.example.arjun.hackernews.data.NewsDataSource;
 import com.example.arjun.hackernews.data.NewsDownloadTask;
-import com.example.arjun.hackernews.data.NewsSourceInterface;
+import com.example.arjun.hackernews.data.OnDownloadComplete;
 import com.example.arjun.hackernews.logic.Controller;
 
 import java.util.ArrayList;
 
-public class NewsActivity extends AppCompatActivity implements ViewInterface{
+public class NewsActivity extends AppCompatActivity implements ViewInterface, OnDownloadComplete {
+    private static final String TAG = "NewsActivity";
 
     private ArrayList<News> newsList;
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
     private Controller controller;
     private static Context contextOfApplication;
+    private NewsDownloadTask newsDownloadTask;
+//    private NewsDataSource newsDataSource;
 
     public static Context getContextOfApplication(){
         return contextOfApplication;
+    }
+
+    @Override
+    public void onDownloadComplete() {
+        Log.d(TAG, "onDownloadComplete: Callback Success");
+        controller = new Controller(this, newsDownloadTask);
     }
 
     @Override
@@ -44,9 +52,10 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface{
 
         recyclerView = findViewById(R.id.recyclerView);
         layoutInflater = getLayoutInflater();
+        newsDownloadTask = new NewsDownloadTask(this);
+        newsDownloadTask.execute("https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60");
 
-        controller = new Controller(this, new NewsDataSource());
-
+//        newsDataSource.getNewsDataSource("https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60");
     }
 
     @Override
