@@ -43,5 +43,12 @@ public class News {
         this.newsURL = newsURL;
     }
 
-
+    @Override
+    public String toString() {
+        return "News{" +
+                "time='" + time + '\n' +
+                ", title='" + title + '\n' +
+                ", newsURL='" + newsURL + '\n' +
+                '}';
+    }
 }

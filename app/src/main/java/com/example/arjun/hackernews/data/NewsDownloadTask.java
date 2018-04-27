@@ -1,12 +1,7 @@
 package com.example.arjun.hackernews.data;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.example.arjun.hackernews.view.NewsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,23 +13,79 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 
 public class NewsDownloadTask extends AsyncTask<String, Void, String> implements NewsSourceInterface {
 
-    private int numberOfNews = 15;
+    private static final String TAG = "NewsDownloadTask";
 
     private ArrayList<String> newsTime;
     private ArrayList<String> newsTitle;
     private ArrayList<String> newsURL;
+    private ArrayList<News> newsArrayList;
+    private OnDownloadComplete complete;    //To callback NewsActivity
 
-    private boolean isAboveCodeComplete; // To Check if Objects are initialised.
+
+    public NewsDownloadTask(OnDownloadComplete complete) {
+        this.complete = complete;
+        this.newsArrayList = new ArrayList<>();
+        this.newsTime = new ArrayList<>();
+        this.newsTitle = new ArrayList<>();
+        this.newsURL = new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<News> getNews() {
+        Log.d(TAG, "getNews: Returning the array list");
+        return this.newsArrayList;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.d(TAG, "onPostExecute: started making objects");
+        int newsNumber = 0;
+        try {
+
+            JSONObject jsonObject = new JSONObject(s);
+            JSONArray articles = jsonObject.getJSONArray("articles");
+            newsNumber = articles.length();
+            Log.d(TAG, "onPostExecute: Started parsing");
+            for (int i = 0; i < newsNumber; i++) {
+
+                JSONObject source = articles.getJSONObject(i);
+                this.newsTitle.add(source.getString("title"));
+                this.newsTime.add(source.getString("publishedAt"));
+                this.newsURL.add(source.getString("url"));
+
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "onPostExecute: JSONException", e);
+        }
+
+        for (int i = 0; i < newsNumber; i++) {
+
+            News news = new News(
+
+                    String.valueOf(this.newsTime.get(i)),
+                    String.valueOf(this.newsTitle.get(i)),
+                    String.valueOf(this.newsURL.get(i))
+            );
+
+            this.newsArrayList.add(news);
+
+        }
+        Log.d(TAG, "onPostExecute: Parsing Complete");
+        this.complete.onDownloadComplete();
+    }
 
     @Override
     protected String doInBackground(String... strings) {
 
-        isAboveCodeComplete = false ;
+        Log.d(TAG, "doInBackground: Download started with link " + strings[0]);
         URL url;
+        StringBuilder urlInfo = new StringBuilder();
+
         HttpURLConnection httpURLConnection;
 
         try {
@@ -46,7 +97,6 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             int data = inputStreamReader.read();
-            StringBuilder urlInfo = new StringBuilder();
 
             while (data != -1){
 
@@ -58,86 +108,15 @@ public class NewsDownloadTask extends AsyncTask<String, Void, String> implements
 
             }
 
-            JSONArray jsonArray = new JSONArray(urlInfo.toString());
-
-            if (numberOfNews > jsonArray.length()) {
-
-                numberOfNews = jsonArray.length();
-            }
-
-
-            for (int i = 0; i < numberOfNews ; i++) {
-
-                String newsID = jsonArray.getString(i);
-
-                url = new URL("https://hacker-news.firebaseio.com/v0/item/"+newsID+".json?print=pretty");
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                inputStream = httpURLConnection.getInputStream();
-                inputStreamReader = new InputStreamReader(inputStream);
-
-                data = inputStreamReader.read();
-                StringBuilder newsInfo = new StringBuilder();
-
-                while (data != -1){
-
-                    char current = (char) data;
-
-                    newsInfo.append(current) ;
-
-                    data = inputStreamReader.read();
-
-                }
-
-                JSONObject jsonObject = new JSONObject(newsInfo.toString());
-
-                newsTime = new ArrayList<>();
-                newsTitle = new ArrayList<>();
-                newsURL = new ArrayList<>();
-
-
-                if (!jsonObject.isNull("time") && !jsonObject.isNull("title") && !jsonObject.isNull("url")){
-
-                    newsTime.add(jsonObject.getString("time"));
-                    newsTitle.add(jsonObject.getString("title"));
-                    newsURL.add(jsonObject.getString("url"));
-
-                }
-
-            }
-
-        } catch (IOException | JSONException e) {
+        } catch (IOException e) {
 
             e.printStackTrace();
+            return null;
 
         }
 
-        isAboveCodeComplete = true;   //Ensuring objects are initialised.
-        return null;
-    }
+        Log.d(TAG, "doInBackground: Download Complete");
 
-    @Override
-    public ArrayList<News> getNews() {
-
-        //Waiting for the doInbackground() to complete. Then only its execution will start.
-        while(!isAboveCodeComplete);
-
-        ArrayList<News> newsArrayList = new ArrayList<>();
-
-        for (int i = 0; i < numberOfNews; i++) {
-
-            News news = new News(
-
-                    String.valueOf(newsTime.get(i)),
-                    String.valueOf(newsTitle.get(i)),
-                    String.valueOf(newsURL.get(i))
-            );
-
-            newsArrayList.add(news);
-
-        }
-
-
-        return newsArrayList;
+        return urlInfo.toString();
     }
 }

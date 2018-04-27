@@ -25,7 +25,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+//I am still working on it.
+
 public class NewsDataSource implements NewsSourceInterface {
+    private static final String TAG = "NewsDataSource";
 
     private int numberOfNews = 10;
 
@@ -34,18 +37,23 @@ public class NewsDataSource implements NewsSourceInterface {
     private ArrayList<String> newsURL;
 
     private ArrayList<News> newsList;
-    private ArrayList<News> newsArrayList;
 
-    private void getNewsDataSource(final NewsListener newsListener){
+    private OnDownloadComplete callback;
 
-        final String URL = "https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60";
-
+    public NewsDataSource(OnDownloadComplete onDownloadComplete) {
+        this.callback = onDownloadComplete;
         newsTime = new ArrayList<>();
         newsTitle = new ArrayList<>();
         newsURL = new ArrayList<>();
 
         newsList = new ArrayList<>();
 
+        Log.d(TAG, "NewsDataSource: Everything is set up");
+    }
+
+    public void getNewsDataSource(String URL) {
+
+        Log.d(TAG, "getNewsDataSource: Starting Downloading");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 URL,
                 null,
@@ -82,10 +90,9 @@ public class NewsDataSource implements NewsSourceInterface {
                             }
 
                         } catch (JSONException e) {
+                            Log.e(TAG, "onResponse: Download Failed");
                             e.printStackTrace();
                         }
-
-                        newsListener.onNewsReceived(newsList);
 
                         //newsList is populated over here.
 
@@ -94,7 +101,7 @@ public class NewsDataSource implements NewsSourceInterface {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e(TAG, "onErrorResponse: Download failed");
                         error.printStackTrace();
 
                     }
@@ -103,31 +110,16 @@ public class NewsDataSource implements NewsSourceInterface {
         Context contextOfApplication = NewsActivity.getContextOfApplication();
         MySingleton.getInstance(contextOfApplication).addToRequestQueue(jsonObjectRequest);
 
-
+        for (News list : newsList) {
+            Log.d(TAG, "*******");
+            Log.d(TAG, list.toString());
+        }
+        this.callback.onDownloadComplete();
     }
 
     @Override
     public ArrayList<News> getNews() {
-
-        newsArrayList = new ArrayList<>();
-
-        getNewsDataSource(new NewsListener() {
-            @Override
-            public void onNewsReceived(ArrayList<News> newsList) {
-
-                Log.i("arjun", newsList.toString());
-                // how do i return the newsList below
-
-                newsArrayList = newsList;
-
-            }
-        });
-
-        Log.i("arjun", newsList.toString());
-
-
-        return newsArrayList;
-
+        Log.d(TAG, "getNews: Returning the data");
+        return this.newsList;
     }
 }
-
