@@ -32,6 +32,7 @@ FakeNews.java - class containing fake data for unit testing and dummy deployment
 News.java - selfexplanatory.
 NewsDownloadTask - class class to fetch data from the API using AsyncTask.
 NewsSourceInterface - interface to communicate with the contoller/presenter.
+OnDownloadComplete - callback for when download is completed.
 ```
 
 ## logic
@@ -50,7 +51,6 @@ Contains activities related to UI aspects.
 NewsActivity - main activity of the app.
 NewsWebView - webview activity to open the links of the respective headlines.
 ViewInterface - interface to communicate with the contoller/presenter.  
-OnDownloadComplete - callback for when download is completed.
 ```
 
 
