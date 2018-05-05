@@ -21,13 +21,11 @@ public class Controller {
     }
 
     public void getListFromNewsSource()  {
-
         Log.d(TAG, "getListFromNewsSource: Calling for the data");
         viewInterface.setAdapterAndView(newsSourceInterface.getNews());
     }
 
     public void onNewsItemClicked(News news) {
-
         viewInterface.startNewsWebViewActivity(news.getNewsURL());
     }
 }

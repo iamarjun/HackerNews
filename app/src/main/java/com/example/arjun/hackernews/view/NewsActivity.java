@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.arjun.hackernews.R;
 import com.example.arjun.hackernews.data.News;
-import com.example.arjun.hackernews.data.NewsDataSource;
 import com.example.arjun.hackernews.data.NewsDownloadTask;
 import com.example.arjun.hackernews.data.OnDownloadComplete;
 import com.example.arjun.hackernews.logic.Controller;
@@ -29,13 +28,7 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface, On
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
     private Controller controller;
-    private static Context contextOfApplication;
     private NewsDownloadTask newsDownloadTask;
-//    private NewsDataSource newsDataSource;
-
-    public static Context getContextOfApplication(){
-        return contextOfApplication;
-    }
 
     @Override
     public void onDownloadComplete() {
@@ -48,19 +41,15 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface, On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        contextOfApplication = getApplicationContext();
-
         recyclerView = findViewById(R.id.recyclerView);
         layoutInflater = getLayoutInflater();
         newsDownloadTask = new NewsDownloadTask(this);
         newsDownloadTask.execute("https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60");
 
-//        newsDataSource.getNewsDataSource("https://newsapi.org/v2/top-headlines?sources=hacker-news&apiKey=0479148276a84cf5bdb90c9e04801f60");
     }
 
     @Override
     public void startNewsWebViewActivity(String newsURL) {
-
         Intent intent = new Intent(getApplicationContext(), NewsWebView.class );
         intent.putExtra("URL", newsURL);
         startActivity(intent);
@@ -69,7 +58,6 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface, On
 
     @Override
     public void setAdapterAndView(ArrayList<News> newsList) {
-
         this.newsList = newsList;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         CustomAdapter customAdapter = new CustomAdapter();
@@ -130,6 +118,5 @@ public class NewsActivity extends AppCompatActivity implements ViewInterface, On
         }
 
     }
-
 
 }
