@@ -29,12 +29,8 @@ Contains all classes related to the data aspect of the project.
 
 ```
 FakeNews.java - class containing fake data for unit testing and dummy deployment.
-MySingleton.java - class containing singleton design pattern for Volley.
 News.java - selfexplanatory.
-NewsDataSource - class to fetch data from the API using Volley.
 NewsDownloadTask - class class to fetch data from the API using AsyncTask.
-NewsListerner - interface to get data from callback methods (Volley's onResponse method).
-NewsSharedPref - class to store data using SharedPreferences.
 NewsSourceInterface - interface to communicate with the contoller/presenter.
 ```
 
@@ -54,6 +50,7 @@ Contains activities related to UI aspects.
 NewsActivity - main activity of the app.
 NewsWebView - webview activity to open the links of the respective headlines.
 ViewInterface - interface to communicate with the contoller/presenter.  
+OnDownloadComplete - callback for when download is completed.
 ```
 
 
@@ -75,7 +72,6 @@ Links open up in WebView when clicked on the desired Headine.
 
 ## Built With
 
-* [Volley](https://developer.android.com/training/volley/index.html) - An HTTP library designed and developed by Google that makes networking for Android apps easier and most importantly, faster. 
 * [Mockito](http://site.mockito.org/) - The unit testing framework used.
 * [News Icon](https://materialdesignicons.com/) - News icon used.
 * [NewsAPI](https://newsapi.org/) - API used to fetch Hacker News headlines.
