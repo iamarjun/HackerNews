@@ -1,6 +1,6 @@
 # HackerNews
 
-HackerNews is a simple barebone app which serves as a starting point for implementing as well as understanding software arcitecture (MVP in this case), working with recyclerview, basic unit testing in android.
+HackerNews is a simple barebone app which serves as a starting point for implementing as well as understanding 3 layer software arcitecture, working with recyclerview, basic unit testing in android.
 
 ## Getting Started
 
@@ -75,20 +75,3 @@ Links open up in WebView when clicked on the desired Headine.
 * [Mockito](http://site.mockito.org/) - The unit testing framework used.
 * [News Icon](https://materialdesignicons.com/) - News icon used.
 * [NewsAPI](https://newsapi.org/) - API used to fetch Hacker News headlines.
-
-
-## Authors
-
-* **Arjun Manoj** - *Application* - [Arjun Manoj](https://github.com/iamarjun)
-* **Ryan** - *Initial work* - [BracketCove](https://github.com/BracketCove)
-
-See also the list of [contributors](https://github.com/iamarjun/HackerNews/graphs/contributors) who participated in this project.
-
-
-## Acknowledgments
-
-* Ryan
-* Stackoverflow
-* Google
-* Me
-
