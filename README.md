@@ -15,13 +15,13 @@ https://stackoverflow.com/questions/25348339/how-to-import-an-existing-project-f
 ### Prerequisites
 
 * Android Studio updated to the latest version (3.1.1 as of doing the project).
-* Some basic theroritical understanding of software architcure (MVC, MVP, MVVM).
+* Some basic theroritical understanding of 3 layer software architcure (MVC, MVP, MVVM).
 * Understanding of RecyclerView and implementation of the same.
 * Understanding of Unit Testing.
 
 ### Project Structure
 
-As per MVP architecture project is broken down into 3 main packages:
+As per 3 layer architecture, project is broken down into 3 main packages:
 
 ## data
 
@@ -30,7 +30,6 @@ Contains all classes related to the data aspect of the project.
 ```
 FakeNews.java - class containing fake data for unit testing and dummy deployment.
 News.java - selfexplanatory.
-NewsDownloadTask - class class to fetch data from the API using AsyncTask.
 NewsSourceInterface - interface to communicate with the contoller/presenter.
 OnDownloadComplete - callback for when download is completed.
 ```
@@ -49,7 +48,7 @@ Contains activities related to UI aspects.
 
 ```
 NewsActivity - main activity of the app.
-NewsWebView - webview activity to open the links of the respective headlines.
+DetailActivity - detailed view of the info.
 ViewInterface - interface to communicate with the contoller/presenter.  
 ```
 
