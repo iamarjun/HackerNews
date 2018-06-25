@@ -2,32 +2,35 @@ package com.example.arjun.hackernews.data;
 
 public class News {
 
-    private String time;
+    private String dateAndTime;
 
-    private String title;
+    private String headline;
 
     private String newsURL;
 
-    public News(String time, String title, String newsURL) {
-        this.time = time;
-        this.title = title;
+    private int colorResource;
+
+    public News(String dateAndTime, String title, String newsURL, int colorResource) {
+        this.dateAndTime = dateAndTime;
+        this.headline = title;
         this.newsURL = newsURL;
+        this.colorResource = colorResource;
     }
 
-    public String getTime() {
-        return time;
+    public String getDateAndTime() {
+        return dateAndTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDateAndTime(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
     }
 
-    public String getTitle() {
-        return title;
+    public String getHeadline() {
+        return headline;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setHeadline(String headline) {
+        this.headline = headline;
     }
 
     public String getNewsURL() {
@@ -38,12 +41,21 @@ public class News {
         this.newsURL = newsURL;
     }
 
+    public int getColorResource() {
+        return colorResource;
+    }
+
+    public void setColorResource(int colorResource) {
+        this.colorResource = colorResource;
+    }
+
     @Override
     public String toString() {
         return "News{" +
-                "time='" + time + '\n' +
-                ", title='" + title + '\n' +
+                "dateAndTime='" + dateAndTime + '\n' +
+                ", headline='" + headline + '\n' +
                 ", newsURL='" + newsURL + '\n' +
+                ", colorResource='" + colorResource + '\n' +
                 '}';
     }
 }

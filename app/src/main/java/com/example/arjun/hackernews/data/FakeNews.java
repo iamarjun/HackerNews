@@ -1,10 +1,14 @@
 package com.example.arjun.hackernews.data;
 
+import com.example.arjun.hackernews.R;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FakeNews implements NewsSourceInterface {
 
-    private static final int sizeOfCollection = 6;
+    private static final int sizeOfCollection = 12;
+    private Random random;
 
     private final String[] dateTimes = {
 
@@ -38,6 +42,17 @@ public class FakeNews implements NewsSourceInterface {
 
     };
 
+    private final int[] drawables = {
+            R.drawable.red_drawable,
+            R.drawable.blue_drawable,
+            R.drawable.green_drawable,
+            R.drawable.yellow_drawable
+    };
+
+    public FakeNews() {
+        random = new Random();
+    }
+
     @Override
     public ArrayList<News> getNews() {
 
@@ -45,19 +60,35 @@ public class FakeNews implements NewsSourceInterface {
 
         for (int i = 0; i < sizeOfCollection ; i++) {
 
-            News news = new News(
-
-                    dateTimes[i],
-                    headlines[i],
-                    newsURL[i]
-            );
-
-            newsData.add(news);
-
+            newsData.add(createNewsList());
         }
-
         return newsData;
     }
 
+    @Override
+    public News createNewsList() {
 
+        int one = random.nextInt(4);
+        int two = random.nextInt(4);
+        int three = random.nextInt(4);
+        int four = random.nextInt(4);
+
+        return new News(
+
+                dateTimes[one],
+                headlines[two],
+                newsURL[three],
+                drawables[four]
+        );
+    }
+
+    @Override
+    public void deleteNewsItem(News news) {
+
+    }
+
+    @Override
+    public void insertNewsItem(News temporaryNewsItem) {
+
+    }
 }
